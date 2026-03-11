@@ -1,0 +1,23 @@
+variables:
+  JAVA_HOME: C:\Program Files\JAVA\jdk-14.0.1
+
+automationjob:
+  stage: build
+  tags:
+    - automation-framework
+  script:
+    - mvn compile
+    - mvn package
+
+pages:
+  stage: deploy
+  dependencies:
+    - automationjob
+  script:
+    - mkdir public/
+    - mv report/TestReport.html public/index.html
+  artifacts:
+    paths:
+      - public/
+  only:
+    - master
